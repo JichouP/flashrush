@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import DrawableCanvas from './DrawableCanvas';
 import axios from 'axios';
 import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Button from '@material-ui/core/Button';
 
 const canvasSize = {
   height: Math.min(400, window.innerWidth - 100),
-  width: Math.min(500, window.innerWidth - 50),
+  width: Math.min(1000, window.innerWidth - 50),
 };
 
 const CanvasWrapper = styled.div`
@@ -17,16 +19,19 @@ const CanvasWrapper = styled.div`
 `;
 
 const ResultContainer = styled.div`
-  margin: 0 auto;
-  height: ${Math.max((canvasSize.width - canvasSize.height) / 2, 50)}px;
-  width: ${canvasSize.width}px;
   display: flex;
+  margin: 0 auto;
+  height: 4rem;
+  width: ${canvasSize.width}px;
   border: solid black 1px;
   border-top: 0px;
 `;
 
 const TextWrapper = styled.div`
-  width: ${(canvasSize.width - canvasSize.height) / 2}px;
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   text-align: center;
   border-right: solid black 1px;
 `;
@@ -36,10 +41,11 @@ const ResultText = styled.p`
 `;
 
 const ResetButton = styled.button`
-  width: ${canvasSize.width - canvasSize.height}px;
+  flex: 1;
+  max-width: 300px;
   background-color: #8ad;
-  padding: 10px;
-  font-size: 1rem;
+  padding: 0px;
+  font-size: 2rem;
 `;
 
 type Language = 'English' | 'Japanese' | 'Chinese';
@@ -102,7 +108,18 @@ export default class AutoCorrect extends Component<{}, { lang: Language; res: st
           <TextWrapper>
             <ResultText>{this.state.res}</ResultText>
           </TextWrapper>
-          <ResetButton onClick={this.reset}>リセット</ResetButton>
+          <Button
+            onClick={this.reset}
+            style={{
+              flex: 1,
+              maxWidth: 300,
+              background: '#56D',
+              padding: 0,
+              borderRadius: 0,
+            }}
+          >
+            <FontAwesomeIcon icon="backspace" style={{ padding: 0, fontSize: '2.5rem' }} />
+          </Button>
         </ResultContainer>
       </div>
     );

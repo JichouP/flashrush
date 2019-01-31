@@ -87,9 +87,7 @@ export default class DrawableCanvas extends Component<
   };
 
   onTouchStart = (e: TouchEvent) => {
-    console.log('object');
     if (!this.isOnCanvas(e)) return;
-    console.log('object2');
     e.preventDefault();
     const rect = this.canvas.getBoundingClientRect();
     this.props.ink.push([[], [], []]);
