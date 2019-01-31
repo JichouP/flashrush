@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "module": "commonjs",
+    "lib": ["es2018", "dom"],
     "allowSyntheticDefaultImports": true,
     "alwaysStrict": true,
     "jsx": "react"

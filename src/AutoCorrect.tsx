@@ -3,12 +3,32 @@ import DrawableCanvas from './DrawableCanvas';
 import axios from 'axios';
 import styled from 'styled-components';
 
+const canvasSize = {
+  height: Math.min(400, window.innerWidth - 100),
+  width: Math.min(500, window.innerWidth - 50),
+};
+
 const CanvasWrapper = styled.div`
+  height: ${canvasSize.height}px;
+  width: ${canvasSize.width}px;
+  margin: 0 auto;
+  border: solid black 1px;
   text-align: center;
 `;
 
+const ResultContainer = styled.div`
+  margin: 0 auto;
+  height: ${Math.max((canvasSize.width - canvasSize.height) / 2, 50)}px;
+  width: ${canvasSize.width}px;
+  display: flex;
+  border: solid black 1px;
+  border-top: 0px;
+`;
+
 const TextWrapper = styled.div`
+  width: ${(canvasSize.width - canvasSize.height) / 2}px;
   text-align: center;
+  border-right: solid black 1px;
 `;
 
 const ResultText = styled.p`
@@ -16,25 +36,21 @@ const ResultText = styled.p`
 `;
 
 const ResetButton = styled.button`
+  width: ${canvasSize.width - canvasSize.height}px;
   background-color: #8ad;
   padding: 10px;
   font-size: 1rem;
 `;
 
-const canvasSize = {
-  height: Math.min(700, window.innerWidth - 50),
-  width: Math.min(700, window.innerWidth - 50),
-};
-
 type Language = 'English' | 'Japanese' | 'Chinese';
 
-export default class AutoCorrect extends Component<{}, { lang: Language; res: [string][] }> {
+export default class AutoCorrect extends Component<{}, { lang: Language; res: string }> {
   ink: [number[], number[], number[]][];
   url: { [lang in Language]: string };
   constructor(props) {
     super(props);
     this.ink = [];
-    this.state = { lang: 'Chinese', res: [] };
+    this.state = { lang: 'Chinese', res: '' };
   }
 
   post = () => {
@@ -64,16 +80,16 @@ export default class AutoCorrect extends Component<{}, { lang: Language; res: [s
     };
     axios.post(url[this.state.lang], data).then(res => {
       if (!res.data[1]) return;
-      this.setState({ ...this.state, res: res.data[1][0][1] });
+      this.setState({ ...this.state, res: res.data[1][0][1][0] });
     });
   };
 
   reset = () => {
-    this.ink.splice(0, this.ink.length);
+    this.ink.splice(0);
     const cvs = document.getElementsByTagName('canvas')[0];
     const ctx = cvs.getContext('2d');
     ctx.clearRect(0, 0, cvs.width, cvs.height);
-    this.setState({ ...this.state, res: [[' ']] });
+    this.setState({ ...this.state, res: '' });
   };
 
   render() {
@@ -82,10 +98,12 @@ export default class AutoCorrect extends Component<{}, { lang: Language; res: [s
         <CanvasWrapper>
           <DrawableCanvas height={canvasSize.height} width={canvasSize.width} ink={this.ink} onEnd={this.post} />
         </CanvasWrapper>
-        <TextWrapper>
-          <ResultText>{this.state.res[0]}</ResultText>
+        <ResultContainer>
+          <TextWrapper>
+            <ResultText>{this.state.res}</ResultText>
+          </TextWrapper>
           <ResetButton onClick={this.reset}>リセット</ResetButton>
-        </TextWrapper>
+        </ResultContainer>
       </div>
     );
   }

@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-const DrawArea = styled.canvas`
-  border: solid black 1px;
-`;
+const DrawArea = styled.canvas``;
 
 export default class DrawableCanvas extends Component<
   {
@@ -58,8 +56,8 @@ export default class DrawableCanvas extends Component<
   };
 
   onMouseUp = (e: MouseEvent): void => {
-    if (!this.isOnCanvas(e)) return;
     this.setState({ ...this.state, drawing: false });
+    if (!this.isOnCanvas(e)) return;
     this.props.onEnd();
   };
 
@@ -74,7 +72,7 @@ export default class DrawableCanvas extends Component<
     // 描画
     this.ctx.lineCap = 'round';
     this.ctx.strokeStyle = 'black';
-    this.ctx.lineWidth = 10;
+    this.ctx.lineWidth = 5;
     this.ctx.beginPath();
     this.ctx.moveTo(this.state.beforeX, this.state.beforeY);
     this.ctx.lineTo(x, y);
@@ -88,8 +86,10 @@ export default class DrawableCanvas extends Component<
     this.setState({ ...this.state, beforeX: x, beforeY: y });
   };
 
-  onTouchStart = (e: TouchEvent): void => {
+  onTouchStart = (e: TouchEvent) => {
+    console.log('object');
     if (!this.isOnCanvas(e)) return;
+    console.log('object2');
     e.preventDefault();
     const rect = this.canvas.getBoundingClientRect();
     this.props.ink.push([[], [], []]);
@@ -103,9 +103,9 @@ export default class DrawableCanvas extends Component<
   };
 
   onTouchEnd = (e: TouchEvent): void => {
+    this.setState({ ...this.state, drawing: false });
     if (!this.isOnCanvas(e)) return;
     e.preventDefault();
-    this.setState({ ...this.state, drawing: false });
     this.props.onEnd();
   };
 
