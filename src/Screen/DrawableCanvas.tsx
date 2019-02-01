@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-const DrawArea = styled.canvas``;
-
 export default class DrawableCanvas extends Component<
   {
     width: number;
@@ -137,6 +135,6 @@ export default class DrawableCanvas extends Component<
   };
 
   render() {
-    return <DrawArea height={this.props.height} width={this.props.width} id="canvas" />;
+    return <canvas height={this.props.height} width={this.props.width} id="canvas" />;
   }
 }

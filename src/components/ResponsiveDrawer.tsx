@@ -15,7 +15,11 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-
+import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+import Top from '../components/Top';
+import AutoCorrect from '../Screen/AutoCorrect';
+import AddWords from '../Screen/AddWords';
 const drawerWidth = 240;
 
 const styles = theme => ({
@@ -50,7 +54,10 @@ const styles = theme => ({
   },
 });
 
-class ResponsiveDrawer extends React.Component<{ classes: any; theme: any; container?: any }, { mobileOpen: any }> {
+class ResponsiveDrawer extends React.Component<
+  { classes: any; theme: any; container?: any } & RouteComponentProps,
+  { mobileOpen: any }
+> {
   state = {
     mobileOpen: false,
   };
@@ -67,10 +74,21 @@ class ResponsiveDrawer extends React.Component<{ classes: any; theme: any; conta
         <div className={classes.toolbar} />
         <Divider />
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
+          {[
+            { text: 'Top', to: '/' },
+            { text: 'Canvas', to: '/canvas' },
+            { text: 'AddWords', to: '/new' },
+            { text: 'Drafts', to: '/fuga' },
+          ].map((v, i) => (
+            <ListItem
+              button
+              key={v.text}
+              onClick={() => {
+                this.props.history.push(v.to);
+              }}
+            >
+              <ListItemIcon>{i % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+              <ListItemText primary={v.text} />
             </ListItem>
           ))}
         </List>
@@ -132,32 +150,17 @@ class ResponsiveDrawer extends React.Component<{ classes: any; theme: any; conta
             </Drawer>
           </Hidden>
         </nav>
-        <main className={classes.content}>
-          <div className={classes.toolbar} />
-          <Typography paragraph>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi
-            tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus. Convallis convallis tellus id
-            interdum velit laoreet id donec ultrices. Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl
-            suscipit adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra nibh cras. Metus
-            vulputate eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo quis imperdiet massa tincidunt.
-            Cras tincidunt lobortis feugiat vivamus at augue. At augue eget arcu dictum varius duis at consectetur
-            lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa sapien faucibus et molestie ac.
-          </Typography>
-          <Typography paragraph>
-            Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla facilisi etiam
-            dignissim diam. Pulvinar elementum integer enim neque volutpat ac tincidunt. Ornare suspendisse sed nisi
-            lacus sed viverra tellus. Purus sit amet volutpat consequat mauris. Elementum eu facilisis sed odio morbi.
-            Euismod lacinia at quis risus sed vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra
-            accumsan in. In hendrerit gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem et
-            tortor. Habitant morbi tristique senectus et. Adipiscing elit duis tristique sollicitudin nibh sit. Ornare
-            aenean euismod elementum nisi quis eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
-            posuere sollicitudin aliquam ultrices sagittis orci a.
-          </Typography>
+        <main className={classes.content} id="main">
+          <div className={classes.toolbar}>whtsthis</div>
+          <Switch>
+            <Route exact path="/" component={Top} />
+            <Route path="/canvas" component={AutoCorrect} />
+            <Route path="/new" component={AddWords} />
+          </Switch>
         </main>
       </div>
     );
   }
 }
 
-export default withStyles(styles, { withTheme: true })(ResponsiveDrawer);
+export default withStyles(styles, { withTheme: true })(withRouter(ResponsiveDrawer));
