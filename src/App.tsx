@@ -5,7 +5,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import Route from './Route';
 useFonts();
 
-const BASE_URL = '/blog';
+const BASE_URL = '/flashrush';
 
 export default class App extends Component {
   render() {
