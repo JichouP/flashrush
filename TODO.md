@@ -1,26 +1,34 @@
 # TODO
 
-- Screen
+- Screens
+  - Login/Regist
+  - CreateFlashCards
   - NewWord
   - History
 - API
+  - Events
+    - login
+    - regist
+    - words/add
+    - words/list
+    - words/search
 - DB
   - Users
     - userId
     - userPassword
   - Words
-    - front1
-    - front1Kind
-    - back1
-    - back1Kind
-    - front2
-    - front2Kind
-    - back2
-    - back2Kind
+    - frontPrimary
+    - frontPrimaryKind
+    - backPrimary
+    - backPrimaryKind
+    - frontSecondary
+    - frontSecondaryKind
+    - backSecondary
+    - backSecondaryKind
     - tags
 - Language - Kind
   - English
-    - spess
+    - spell
     - pronunciation
     - meaning
   - Japanese
@@ -30,10 +38,6 @@
   - Chinese
     - kanji
     - pinyin
-  - spell
-  - pronunciation
-  - kanji
-  - reading
-  - pinyin
-  - meaning
   - hangul
+    - reading
+    - meaning

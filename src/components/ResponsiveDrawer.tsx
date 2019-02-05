@@ -74,23 +74,20 @@ class ResponsiveDrawer extends React.Component<
         <div className={classes.toolbar} />
         <Divider />
         <List>
-          {[
-            { text: 'Top', to: '/' },
-            { text: 'Canvas', to: '/canvas' },
-            { text: 'AddWords', to: '/new' },
-            { text: 'Drafts', to: '/fuga' },
-          ].map((v, i) => (
-            <ListItem
-              button
-              key={v.text}
-              onClick={() => {
-                this.props.history.push(v.to);
-              }}
-            >
-              <ListItemIcon>{i % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={v.text} />
-            </ListItem>
-          ))}
+          {[{ text: 'Top', to: '/' }, { text: 'Canvas', to: '/canvas' }, { text: 'AddWords', to: '/new' }].map(
+            (v, i) => (
+              <ListItem
+                button
+                key={v.text}
+                onClick={() => {
+                  this.props.history.push(v.to);
+                }}
+              >
+                <ListItemIcon>{i % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                <ListItemText primary={v.text} />
+              </ListItem>
+            )
+          )}
         </List>
         <Divider />
         <List>
